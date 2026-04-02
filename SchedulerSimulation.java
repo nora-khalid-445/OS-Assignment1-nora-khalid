@@ -30,7 +30,6 @@ class Process implements Runnable {
     private int timeQuantum;
     private int remainingTime;
 
-    // ✅ Features
     private int priority;
     private long creationTime;
     private long waitingTime = 0;
@@ -41,16 +40,12 @@ class Process implements Runnable {
         this.timeQuantum = timeQuantum;
         this.remainingTime = burstTime;
 
-        // Priority
         this.priority = (int)(Math.random() * 5) + 1;
-
-        // Waiting time
         this.creationTime = System.currentTimeMillis();
     }
 
     @Override
     public void run() {
-        // Waiting time calculation
         long startTime = System.currentTimeMillis();
         waitingTime += (startTime - creationTime);
 
@@ -111,7 +106,6 @@ class Process implements Runnable {
 // Main Class
 public class SchedulerSimulation {
 
-    // ✅ Context Switch Counter
     static int contextSwitches = 0;
 
     public static void main(String[] args) {
@@ -126,19 +120,16 @@ public class SchedulerSimulation {
         Queue<Thread> processQueue = new LinkedList<>();
         Map<Thread, Process> processMap = new HashMap<>();
 
-        // Create processes
         for (int i = 1; i <= numProcesses; i++) {
             int burstTime = timeQuantum/2 + random.nextInt(2 * timeQuantum + 1);
             Process process = new Process("P" + i, burstTime, timeQuantum);
             addProcessToQueue(process, processQueue, processMap);
         }
 
-        // Scheduler loop
         while (!processQueue.isEmpty()) {
 
             Thread currentThread = processQueue.poll();
 
-            // ✅ Context Switch
             contextSwitches++;
 
             currentThread.start();
@@ -160,10 +151,8 @@ public class SchedulerSimulation {
             }
         }
 
-        // ✅ Context Switch Result
         System.out.println("Total context switches: " + contextSwitches);
 
-        // ✅ Waiting Time Summary
         System.out.println("\nWaiting Time Summary:");
         for (Process p : processMap.values()) {
             System.out.println(p.getName() + " Waiting Time: " + p.getWaitingTime());
@@ -178,7 +167,6 @@ public class SchedulerSimulation {
         processQueue.add(thread);
         processMap.put(thread, process);
 
-        // ✅ Priority shown
         System.out.println(process.getName() + " (Priority: " + process.getPriority() + ") added to queue");
     }
 }
